@@ -1,48 +1,29 @@
 # Libraries
-import os, sys
+import os, sys, cv2
 from PIL import Image
 import numpy as np
 
-def crop_whitespace(jpg):
-  img = Image.open(jpg).convert("RGB")
-  np_img = np.array(img)
+def remove_background(imagepath):
+  # Load image
+  img = cv2.imread(imagepath)
+  gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-  # Convert to grayscale
-  gray = np.mean(np_img, axis=2)
+  # Threshold setting
+  _, thresh = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY_INV)
 
-  # Eliminate scan light-bleeding
-  h, w = gray.shape
-  edge_margin = 0.20
+  # Contors
+  contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+  if not contours:
+    print("ERROR")
+    return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
-  gray_central = gray [
-    int(h * edge_margin):int(h * (1-edge_margin)),
-    int(w * edge_margin):int(w * (1-edge_margin))
-  ]
+  # Find largest countour
+  largest = max(contours, key=cv2.contourArea)
+  x, y, w, h = cv2.boundingRect(largest)
 
-  # Mask
-  mask = gray_central < 240
-  
-  # Show mask
-  mask_img = Image.fromarray((mask*255).astype(np.uint8))
-  mask_img.show()
-
-  coords = np.argwhere(mask)
-  print(coords)
-  if coords.size == 0:
-    print(f"No content found in {jpg}")
-    return img
-  
-  # Adjusts coords back to full image space
-  y0, x0 = coords.min(axis=0)
-  y1, x1 = coords.max(axis=0) + 1 # includes edge
-  y0 += int(h * edge_margin)
-  y1 += int(h * edge_margin)
-  x0 += int(w * edge_margin)
-  x1 += int(w * edge_margin)
-
-  cropped = img.crop((x0, y0, x1, y1))
-
-  return cropped
+  # Build result
+  cropped = img[y:y+h, x:x+w]
+  return Image.fromarray(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB))
 
 def main(indir, outdir):
   # if outdir doesnt exist, make it
@@ -54,7 +35,7 @@ def main(indir, outdir):
       if file.lower().endswith(".jpg"):
         cardpath = os.path.join(root, file) # Find card path
         outpath = os.path.join(outdir, file) # crop the card, and store result
-        result = crop_whitespace(cardpath) # crop
+        result = remove_background(cardpath) # crop
         result.save(outpath) # put result in outpath
   return
 
