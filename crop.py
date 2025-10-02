@@ -16,38 +16,22 @@ def remove_background(imagepath):
   if not contours:
     print("ERROR")
     return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-
-  # Find largest countour
   largest = max(contours, key=cv2.contourArea)
 
-  # Get minimum area rectangle
+  # Get rotation angle
   rect = cv2.minAreaRect(largest)
-  box = cv2.boxPoints(rect)
-  box = np.int32(box)
+  angle = rect[2] +90 if rect[1][0] < rect[1][1] else rect[2]
 
-  # Calculate angle 
-  angle = rect[2] 
-  if rect[1][0] < rect[1][1]:  # width < height
-      angle += 90
-
-  # Find new center of rotated image
+  # Rotate image with expanded canvas
   (h, w) = img.shape[:2]
   center = (w // 2, h // 2)
-
-  # Compute rotation matrix
   rot_mat = cv2.getRotationMatrix2D(center, angle, 1.0)
-
-  # Compute new bounding dimensions
   cos = np.abs(rot_mat[0, 0])
   sin = np.abs(rot_mat[0, 1])
   new_w = int((h * sin) + (w * cos))
   new_h = int((h * cos) + (w * sin))
-
-  # Adjust rotation matrix to account for translation
   rot_mat[0, 2] += (new_w / 2) - center[0]
   rot_mat[1, 2] += (new_h / 2) - center[1]
-
-  # Rotate entire image
   rotated = cv2.warpAffine(img, rot_mat, (new_w, new_h), flags=cv2.INTER_CUBIC)
 
   # Recalculate contours on rotated image
@@ -69,12 +53,10 @@ def remove_background(imagepath):
   # Crop using largest contour in rotated image
   largest_rotated = max(rotated_contours, key=cv2.contourArea)
 
-  # Get rotated rectangle from largest contour
+  # Crop using rotated rectangle
   rect = cv2.minAreaRect(largest_rotated)
   box = cv2.boxPoints(rect)
   box = np.int32(box)
-
-  # Get bounding box from rotated rectangle
   x, y, w, h = cv2.boundingRect(box)
 
   # Padding
