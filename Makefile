@@ -8,7 +8,7 @@ venv:
 	python3 -m venv $(VENV)
 
 setup: venv
-	$(VENV_NAME)/bin/pip install --upgrade pip
+	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -r requirements.txt
 
 run:
