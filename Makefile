@@ -1,6 +1,6 @@
 SCRIPT = crop.py
-INPUT_DIR ?= cards_raw
-OUTPUT_DIR ?= cards_cropped
+INPUT_DIR ?= ./dataset/images/train
+# OUTPUT_DIR ?= 
 VENV=.venv
 PYTHON = .venv/bin/python
 
@@ -11,9 +11,6 @@ setup: venv
 	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -r requirements.txt
 	mkdir -p annotations
-
-run:
-	$(PYTHON) $(SCRIPT) $(INPUT_DIR) $(OUTPUT_DIR)
 
 label:
 	$(VENV)/bin/labelImg $(INPUT_DIR) classes.txt annotations

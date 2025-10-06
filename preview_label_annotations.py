@@ -1,8 +1,8 @@
 import cv2
 import os
 
-IMG_DIR = "cards_raw"
-LABEL_DIR = "annotations"
+IMG_DIR = "./dataset/images/train"
+LABEL_DIR = "./dataset/labels/train"
 CLASS_NAMES = ["baseball_card", "football_card"]  # match your classes.txt
 
 for filename in os.listdir(IMG_DIR):
