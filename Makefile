@@ -25,5 +25,7 @@ patch:
 	patch .venv/lib/python3.11/site-packages/labelImg/labelImg.py < docs/labelimg.patch
 	patch .venv/lib/python3.11/site-packages/libs/canvas.py < docs/canvas.patch
 
+validate:
+	$(PYTHON) validate_dataset.py
 clean:
 	rm -rf $(OUTPUT_DIR)/*
