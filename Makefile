@@ -20,7 +20,7 @@ patch:
 	patch .venv/lib/python3.11/site-packages/libs/canvas.py < docs/canvas.patch
 
 predict:
-	yolo task=detect mode=predict model=runs/detect/train/weights/best.pt source=$(INPUT_DIR)
+	yolo task=detect mode=predict model=runs/detect/train/weights/best.pt source=$(INPUT_DIR) save_txt=True save_conf=False
 
 prep:
 	$(PYTHON) prep.py
