@@ -4,11 +4,31 @@ I have been trying to sell my baseball card collection on eBay. The photo-croppi
 My printer (HP Envy 6055) allows for relatively quick scans. It packages all scans into a folder that I can save.
 It would be convenient if I could feed that folder into a script and have code auto-crop them. This would make posting to eBay faster.
 
-# Training command:
-* yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=50 imgsz=640
+# General Work Flow / Pipeline
+1. Raw scans are placed into cards_raw
+* These are full-frame .jpg images of the cards
 
-# Future Updates
-After accumulating many scans, train an AI model to crop batches full for me. 
-Currently I am only scanning one card, one side at a time.
-If I could do batches of 9 at a time, I could speed up this process.
-But, through image recognition, AI would help define where a card starts and ends amongst a batch scan.
+2. Label with LabelImg
+* Command: `make label`
+* If errors arise, try command: `make patch`
+
+3. Using LabelImg, draw bounding boxes around images 
+* Annotations are saved as `.txt` files in `annotations/`
+
+4. Move annotations to training folder
+* Copy each `.txt` file from `annotations/` to `dataset/labels/train`
+* Copy each `.jpg` file from `cards_raw` to `dataset/images/train`
+* Command: `make prep`
+
+5. Validate that all training images have matching labels/annotations
+* Command: `make validate`
+
+6. Retrain the model
+* Command: `make retrain`
+* This fine-tunes your existing YOLOv8 model (`best.pt`) using the updated training set
+* The model learns from your newly annotated examples
+
+7. Apply model
+* Command: `make predict`
+* This uses your trained model to detect cards in `cards_raw/`
+* Results are saved to `runs/detect/predict/` with bounding boxes drawn on each image

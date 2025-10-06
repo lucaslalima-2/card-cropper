@@ -1,5 +1,5 @@
 SCRIPT = crop.py
-INPUT_DIR ?= ./dataset/images/train
+INPUT_DIR ?= cards_raw
 # OUTPUT_DIR ?= 
 VENV=.venv
 PYTHON = .venv/bin/python
@@ -13,16 +13,26 @@ setup: venv
 
 label:
 	mkdir -p annotations
-	$(VENV)/bin/labelImg $(INPUT_DIR) classes.txt annotations
-
-preview:
-	$(PYTHON) preview_label_annotations.py
+	$(VENV)/bin/labelImg $(INPUT_DIR) ./annotations/classes.txt annotations
 
 patch:
 	patch .venv/lib/python3.11/site-packages/labelImg/labelImg.py < docs/labelimg.patch
 	patch .venv/lib/python3.11/site-packages/libs/canvas.py < docs/canvas.patch
 
+predict:
+	yolo task=detect mode=predict model=runs/detect/train/weights/best.pt source=$(INPUT_DIR)
+
+prep:
+	$(PYTHON) prep.py
+
+preview:
+	$(PYTHON) preview_label_annotations.py
+
+retrain:
+	yolo task=detect mode=train model=runs/detect/train/weights/best.pt data=data.yaml epochs=20 imgsz=640
+
 validate:
 	$(PYTHON) validate_dataset.py
+
 clean:
 	rm -rf $(OUTPUT_DIR)/*
