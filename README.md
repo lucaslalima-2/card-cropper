@@ -5,8 +5,8 @@ My printer (HP Envy 6055) allows for relatively quick scans. It packages all sca
 It would be convenient if I could feed that folder into a script and have code auto-crop them. This would make posting to eBay faster.
 
 # General Work Flow / Pipeline
-1. Raw scans are placed into cards_raw
-* These are full-frame .jpg images of the cards
+1. Raw scans are placed into `cards_raw`
+* These are full-frame `.jpg` images of the cards
 
 2. Label with LabelImg
 * Command: `make label`
@@ -32,3 +32,7 @@ It would be convenient if I could feed that folder into a script and have code a
 * Command: `make predict`
 * This uses your trained model to detect cards in `cards_raw/`
 * Results are saved to `runs/detect/predict/` with bounding boxes drawn on each image
+
+8. Crop predictions
+* Command: `make crop`
+* This looks at the latest prediction folder and crops the images for posting
