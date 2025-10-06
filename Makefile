@@ -10,9 +10,9 @@ venv:
 setup: venv
 	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -r requirements.txt
-	mkdir -p annotations
 
 label:
+	mkdir -p annotations
 	$(VENV)/bin/labelImg $(INPUT_DIR) classes.txt annotations
 
 preview:
