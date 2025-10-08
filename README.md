@@ -15,27 +15,23 @@ It would be convenient if I could feed that folder into a script and have code a
 * Confirm that LabelImg > Change Save Dir points to dataset/labels/train. By default, annotations are saved as `.txt` files in `annotations/`. We don't want this.
 * Used the bounding box button on the bottom-left of the GUI to drag-create labels.
 
-3. [If needed] Move annotations to training folder
-* Copy each `.txt` file from `annotations/` to `dataset/labels/train`.
-* Copy each `.jpg` file from `cards_raw` to `dataset/images/train`.
-* Command: `make prep`
-
-4. [If desired / until model is strong] Move validation images to `dataset/images/val` & connected label `.txt` files to `dataset/labels/val`
+3. [If desired / Until model is strong] Move validation images to `dataset/images/val` & connected label `.txt` files to `dataset/labels/val`
 * We need validation images that are unique to `dataset/images/train` and `dataset/labels/train` to prevent overfitting (poor model decisions).
+* Command: `make prep-eval` or `make prep-train`
 
-5. Validate that all training images and validation images have matching labels (`.txt` files)
+4. Validate that all training images and validation images have matching labels (`.txt` files)
 * Command: `make validate`
 
-6. Retrain the model
+5. Retrain the model
 * Command: `make retrain`
 * This fine-tunes your existing YOLOv8 model (`best.pt`) using the updated training set.
 * The model learns from your newly annotated examples.
 
-7. Apply model
+6. Apply model
 * Command: `make predict`
 * This uses your trained model to detect cards in `cards_raw/`.
 * Results are saved to `runs/detect/predict*/` with bounding boxes drawn on each image.
 
-8. Crop predictions
+7. Crop predictions
 * Command: `make crop`
 * This looks at the latest prediction folder and crops the images for posting.
