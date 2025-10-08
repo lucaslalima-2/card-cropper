@@ -31,7 +31,7 @@ It would be convenient if I could feed that folder into a script and have code a
 7. Apply model
 * Command: `make predict`
 * This uses your trained model to detect cards in `cards_raw/`
-* Results are saved to `runs/detect/predict/` with bounding boxes drawn on each image
+* Results are saved to `runs/detect/predict*/` with bounding boxes drawn on each image
 
 8. Crop predictions
 * Command: `make crop`

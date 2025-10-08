@@ -7,3 +7,4 @@ dataset*/i
 runs/
 yolo*
 dataset*/
+__pycache__/

@@ -1,8 +1,11 @@
 SCRIPT = crop.py
 INPUT_DIR ?= cards_raw
-# OUTPUT_DIR ?= 
 VENV=.venv
 PYTHON = .venv/bin/python
+MODEL = runs/detect/train/weights/best.pt
+
+crop:
+	$(PYTHON) crop_predictions.py 
 
 venv:
 	python3.11 -m venv $(VENV)
@@ -20,7 +23,7 @@ patch:
 	patch .venv/lib/python3.11/site-packages/libs/canvas.py < docs/canvas.patch
 
 predict:
-	yolo task=detect mode=predict model=runs/detect/train/weights/best.pt source=$(INPUT_DIR) save_txt=True save_conf=False
+	yolo task=detect mode=predict model=$(MODEL) source=$(INPUT_DIR) save_txt=True save_conf=False save=False
 
 prep:
 	$(PYTHON) prep.py

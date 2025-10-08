@@ -18,18 +18,21 @@ def find_latest_predict_dir(base="runs/detect"):
 	return None
 
 # Variables
-IMAGES_DIR = find_latest_predict_dir()
-LABELS_DIR = os.path.join(IMAGES_DIR, "labels")
+PREDICTION_DIR = find_latest_predict_dir()
+LABELS_DIR = os.path.join(PREDICTION_DIR, "labels")
 OUTPUT_DIR = "cards_cropped"
 
-#=== 
 # Makes outdir
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# Sets class name
+with open("data.yaml", "r") as f:
+    class_names = yaml.safe_load(f)["names"]
 
 # Finds label
 for label_file in os.listdir(LABELS_DIR):
 	image_name = label_file.replace(".txt", ".jpg")
-	image_path = os.path.join(IMAGES_DIR, image_name)
+	image_path = os.path.join("cards_raw", image_name)
 	label_path = os.path.join(LABELS_DIR, label_file)
 
 	# Loads image
@@ -52,9 +55,10 @@ for label_file in os.listdir(LABELS_DIR):
 
 			# Removes background
 			cleaned = remove_background(temp_path)
-			cropped_img = f"{label_file.replace('.txt','')}_{i}.jpg"
+			class_name = class_names[int(cls_id)]
+			cropped_img = f"{label_file.replace('.txt','')}_{class_name}_{i}.jpg"
 			cleaned.save(os.path.join(OUTPUT_DIR, cropped_img))
 
-	# Removes temp img
-	if os.path.exists("temp_crop.jpg"):
-		os.remove("temp_crop.jpg")
+# Removes temp img
+if os.path.exists("temp_crop.jpg"):
+	os.remove("temp_crop.jpg")
