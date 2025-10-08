@@ -25,8 +25,11 @@ patch:
 predict:
 	yolo task=detect mode=predict model=$(MODEL) source=$(INPUT_DIR) save_txt=True save_conf=False save=False
 
-prep:
-	$(PYTHON) prep.py
+prep-test:
+	$(PYTHON) prep.py --input_folder cards_raw --testing
+
+prep-eval:
+	$(PYTHON) prep.py --input_folder cards_raw --evaluating
 
 preview:
 	$(PYTHON) preview_label_annotations.py
