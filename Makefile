@@ -5,7 +5,7 @@ PYTHON = .venv/bin/python
 MODEL = runs/detect/train/weights/best.pt
 
 crop:
-	$(PYTHON) crop_predictions.py 
+	$(PYTHON) crop.py 
 
 venv:
 	python3.11 -m venv $(VENV)
@@ -23,7 +23,7 @@ patch:
 	patch .venv/lib/python3.11/site-packages/libs/canvas.py < docs/canvas.patch
 
 predict:
-	yolo task=detect mode=predict model=$(MODEL) source=$(INPUT_DIR) save_txt=True save_conf=False save=False
+	$(PYTHON) predict.py
 
 prep-train:
 	$(PYTHON) prep.py --input_folder cards_raw --training
@@ -35,10 +35,10 @@ preview:
 	$(PYTHON) preview_label_annotations.py
 
 retrain:
-	yolo task=detect mode=train model=runs/detect/train/weights/best.pt data=data.yaml epochs=20 imgsz=640
+	$(PYTHON) retrain.py
 
 validate:
-	$(PYTHON) validate_dataset.py
+	$(PYTHON) validate.py
 
 clean:
 	rm -rf $(OUTPUT_DIR)/*
