@@ -24,7 +24,6 @@ patch:
 
 predict:
 	$(PYTHON) predict.py
-#	yolo task=detect mode=predict model=$(MODEL) source=$(INPUT_DIR) save_txt=True save_conf=False save=False
 
 prep-train:
 	$(PYTHON) prep.py --input_folder cards_raw --training
@@ -37,7 +36,6 @@ preview:
 
 retrain:
 	$(PYTHON) retrain.py
-#	yolo task=detect mode=train model=runs/detect/train/weights/best.pt data=data.yaml epochs=20 imgsz=640
 
 validate:
 	$(PYTHON) validate.py
