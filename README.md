@@ -13,6 +13,7 @@ It would be convenient if I could feed that folder into a script and have code a
 * For more training, move new images to dataset/images/train and load that with LabelImg > Open Dir.
 * Confirm that LabelImg > Change Save Dir points to dataset/labels/train. By default, annotations are saved as `.txt` files in `annotations/`. We don't want this.
 * Used the bounding box button on the bottom-left of the GUI to drag-create labels.
+* Shortcut (hotkey): W
 * Command: `make label`
 
 3. [If desired / Until model is strong] Move validation images to `dataset/images/val` & connected label `.txt` files to `dataset/labels/val`
@@ -41,6 +42,6 @@ It would be convenient if I could feed that folder into a script and have code a
 * Smaller is better — ideally decreasing over time
 
 * `mAP@0.5` and `mAP@0.5:0.95`
-* These measure how well your model is detecting objects. Larger is better — ideallym increasing over time.
+* These measure how well your model is detecting objects. Larger is better — ideally increasing over time.
 * `mAP@0.5`: easier threshold (IoU ≥ 0.5)
 * `mAP@0.5:0.95`: stricter, averaged across thresholds
