@@ -19,7 +19,7 @@ def check_alignment(image_dir, label_dir):
         for img in missing_labels:
             print(f"  - {img}")
     else:
-        print("✅ All images have matching labels.")
+        print(f"✅ {image_dir} [VS.] {label_dir} -> All images have matching labels.")
 
 check_alignment("dataset/images/train", "dataset/labels/train")
 check_alignment("dataset/images/val", "dataset/labels/val")
