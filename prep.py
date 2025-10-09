@@ -20,7 +20,7 @@ else:
 	exit()
 
 # Catch
-if args.training and args.evaulating:
+if args.training and args.evaluating:
 	print("(E) prep.py -> User can only pick one destination folder: [--testing, --evaluation]")
 	exit()
 
@@ -32,29 +32,35 @@ added = 0
 skipped = 0
 missing_labels = 0
 
-for filename in os.listdir(args.input_folder):
-	if not filename.endswith(".jpg"):
-		continue
+for root, _, files in os.walk(args.input_folder):
+	for filename in files:
+		if not filename.endswith(".jpg"):
+			continue
 
-	image = os.path.join(args.input_folder, filename)
-	label = os.path.join(ANNOTATIONS, filename.replace(".jpg", ".txt"))
-	matching_img = os.path.join(dest_img, filename)
-	matching_lab = os.path.join(dest_lab, filename.replace(".jpg", ".txt"))
+		image = os.path.join(root, filename)
+		label = os.path.join(ANNOTATIONS, filename.replace(".jpg", ".txt"))
+		matching_img = os.path.join(dest_img, filename)
+		matching_lab = os.path.join(dest_lab, filename.replace(".jpg", ".txt"))
 
-	if not os.path.exists(matching_img):
-		shutil.move(image, matching_img)
-		print(f"Coppying: {image} -> {matching_img}")
+		# print(f"IMAGE: {image}")
+		# print(f"LABEL: {label}")
+		# print(f"MATCHING IMG: {matching_img}")
+		# print(f"MATCHING LABEL: {matching_lab}")
 
-		if not os.path.exists(matching_lab): # Moving
-			shutil.move(label, matching_lab)
-			print(f"✅ Added {filename} and its annotation.")
-			added += 1
-		else: # Already present
-			print(f"⚠️ Annotation already exists for {filename}.")
-			missing_labels += 1
-	else: # JPG already exists
-		print(f"⏩ Skipped {filename} (already exists).")
-		skipped += 1
+		if not os.path.exists(matching_img):
+			shutil.move(image, matching_img)
+			print(f"Coppying: {image} -> {matching_img}")
+
+			if not os.path.exists(matching_lab): # Moving
+				shutil.move(label, matching_lab)
+				print(f"✅ Added {filename} and its annotation.")
+				added += 1
+			else: # Already present
+				print(f"⚠️ Annotation already exists for {filename}.")
+				missing_labels += 1
+		else: # JPG already exists
+			print(f"⏩ Skipped {filename} (already exists).")
+			skipped += 1
 
 print(f"\nSummary:")
 print(f"  ✅ Added: {added}")

@@ -35,3 +35,12 @@ It would be convenient if I could feed that folder into a script and have code a
 7. Crop predictions
 * This looks at the latest prediction folder and crops the images for posting.
 * Command: `make crop`
+
+# Metrics to look at when training your model
+* Loss (especially box_loss, cls_loss, dfl_loss). These measure how far off your predictions are from the ground truth.
+* Smaller is better — ideally decreasing over time
+
+* `mAP@0.5` and `mAP@0.5:0.95`
+* These measure how well your model is detecting objects. Larger is better — ideallym increasing over time.
+* `mAP@0.5`: easier threshold (IoU ≥ 0.5)
+* `mAP@0.5:0.95`: stricter, averaged across thresholds
