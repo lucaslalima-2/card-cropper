@@ -29,7 +29,7 @@ It would be convenient if I could feed that folder into a script and have code a
 * Command: `make retrain`
 
 6. See model predictions on trained data
-* COmmand: `make preview`
+* Command: `make preview`
 
 7. Apply model
 * This uses your trained model to detect cards in `cards_raw/`.

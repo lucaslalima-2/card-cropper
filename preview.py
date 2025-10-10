@@ -1,9 +1,22 @@
-import cv2
-import os
+# Libaries
+import cv2, os, argparse
+from src.find_latest_predict_dir import find_latest_predict_dir
 
-IMG_DIR = "./dataset/images/train"
-LABEL_DIR = "./dataset/labels/train"
-CLASS_NAMES = ["baseball_card", "football_card"]  # match your classes.txt
+# Args
+parser = argparse.ArgumentParser(description="Displays bounding boxes made")
+parser.add_argument('--target', help='Target *.jpgs')
+args = parser.parse_args()
+
+# Target
+if args.target == "train":
+	IMG_DIR = "./dataset/images/train"
+	LABEL_DIR = "./dataset/labels/train"
+
+if args.target == "raw":
+	IMG_DIR = "./cards_raw"
+	LABEL_DIR = find_latest_predict_dir() + "/labels"
+
+CLASS_NAMES = ["trading_card"]  # match your classes.txt
 
 for filename in os.listdir(IMG_DIR):
 	if not filename.endswith(".jpg"):
@@ -11,7 +24,6 @@ for filename in os.listdir(IMG_DIR):
 
 	img_path = os.path.join(IMG_DIR, filename)
 	label_path = os.path.join(LABEL_DIR, filename.replace(".jpg", ".txt"))
-
 	img = cv2.imread(img_path)
 	h, w = img.shape[:2]
 

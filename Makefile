@@ -31,8 +31,11 @@ prep-train:
 prep-eval:
 	$(PYTHON) prep.py --input_folder cards_raw --evaluating
 
-preview:
-	$(PYTHON) preview_label_annotations.py
+preview-train:
+	$(PYTHON) preview.py --target train
+
+preview-raw:
+	$(PYTHON) preview.py --target raw
 
 retrain:
 	$(PYTHON) retrain.py
