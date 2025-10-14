@@ -5,6 +5,7 @@ Run after sorting images (.jpgs) and description files (.txts)
 import os
 
 def check_alignment(image_dir, label_dir):
+    print(f"(I) Checking: {image_dir} vs. {label_dir}")
     images = [f for f in os.listdir(image_dir) if f.endswith(".jpg")]
     labels = [f for f in os.listdir(label_dir) if f.endswith(".txt")]
 

@@ -28,12 +28,17 @@ It would be convenient if I could feed that folder into a script and have code a
 * The model learns from your newly annotated examples.
 * Command: `make retrain`
 
-6. Apply model
-* This uses your trained model to detect cards in `cards_raw/`.
-* Results are saved to `runs/detect/predict*/` with bounding boxes drawn on each image.
-* Command: `make predict`
+6. See model predictions on trained data
+* Command: `make preview`
 
-7. Crop predictions
+7. Apply model
+* This uses your trained model to detect cards in `dataset/images/val` or `cards_raw/`.
+* Bounding-box results are saved to `runs/detect/predict*/`.
+* To save bounding-boxes with images, update final command in `predict.py`.
+* These would need to be set true: `"save_conf=False"` & `"save=False"`.
+* Command: `make predict-train` or `make preview-raw`
+
+8. Crop predictions
 * This looks at the latest prediction folder and crops the images for posting.
 * Command: `make crop`
 

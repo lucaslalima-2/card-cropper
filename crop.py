@@ -8,14 +8,7 @@ import numpy as np
 
 # Functions
 from src.remove_background import remove_background
-
-# Finds latest prediction dir
-def find_latest_predict_dir(base="runs/detect"):
-	predict_dirs = [d for d in os.listdir(base) if d.startswith("predict")]
-	predict_dirs.sort(reverse=True)
-	if predict_dirs:
-			return os.path.join(base, predict_dirs[0])
-	return None
+from src.find_latest_predict_dir import find_latest_predict_dir
 
 # Variables
 PREDICTION_DIR = find_latest_predict_dir()
@@ -31,9 +24,15 @@ with open("data.yaml", "r") as f:
 
 # Finds label
 for label_file in os.listdir(LABELS_DIR):
+	print(f"Looking at label file: {label_file}")
+
 	image_name = label_file.replace(".txt", ".jpg")
 	image_path = os.path.join("cards_raw", image_name)
 	label_path = os.path.join(LABELS_DIR, label_file)
+
+	print(f"Looking at img: {image_name}")
+	print(f"Looking at path: {image_path}")
+	print(f"Looking at label path: {label_path}")
 
 	# Loads image
 	img = cv2.imread(image_path)
