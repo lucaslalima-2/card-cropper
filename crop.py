@@ -24,15 +24,15 @@ with open("data.yaml", "r") as f:
 
 # Finds label
 for label_file in os.listdir(LABELS_DIR):
-	print(f"Looking at label file: {label_file}")
+	# print(f"Looking at label file: {label_file}")
 
 	image_name = label_file.replace(".txt", ".jpg")
 	image_path = os.path.join("cards_raw", image_name)
 	label_path = os.path.join(LABELS_DIR, label_file)
 
-	print(f"Looking at img: {image_name}")
-	print(f"Looking at path: {image_path}")
-	print(f"Looking at label path: {label_path}")
+	# print(f"Looking at img: {image_name}")
+	# print(f"Looking at path: {image_path}")
+	# print(f"Looking at label path: {label_path}")
 
 	# Loads image
 	img = cv2.imread(image_path)
