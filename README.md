@@ -34,7 +34,7 @@ It would be convenient if I could feed that folder into a script and have code a
 7. Apply model
 * This uses your trained model to detect cards in `dataset/images/val` or `cards_raw/`.
 * Bounding-box results are saved to `runs/detect/predict*/`.
-* To save bounding-boxes with images, update final command in `predict.py`.
+* To save bounding-boxes lines on top of images, update final command in `predict.py`.
 * These would need to be set true: `"save_conf=False"` & `"save=False"`.
 * Command: `make predict-train` or `make preview-raw`
 
