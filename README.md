@@ -36,7 +36,7 @@ It would be convenient if I could feed that folder into a script and have code a
 * Bounding-box results are saved to `runs/detect/predict*/`.
 * To save bounding-boxes lines on top of images, update final command in `predict.py`.
 * These would need to be set true: `"save_conf=False"` & `"save=False"`.
-* Command: `make predict-train` or `make preview-raw`
+* Command: `make preview-train` or `make preview-raw`
 
 8. Crop predictions
 * This looks at the latest prediction folder and crops the images for posting.
