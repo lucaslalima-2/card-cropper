@@ -28,8 +28,8 @@ It would be convenient if I could feed that folder into a script and have code a
 * The model learns from your newly annotated examples.
 * Command: `make retrain`
 
-6. See model predictions on trained data
-* Command: `make preview`
+6. Applies model on `./cards_raw` directory. All images must be flattened, meaning existing outside subdirectories (at the moment).
+* Command: `make predict`
 
 7. Apply model
 * This uses your trained model to detect cards in `dataset/images/val` or `cards_raw/`.
